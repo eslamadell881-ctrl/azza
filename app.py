@@ -111,7 +111,7 @@ elif st.session_state.state == "opened":
     col_img1, col_img2, col_img3 = st.columns([1, 1.5, 1])
     with col_img2:
         # عرض صورة البنت بجودة عالية
-        st.image("image_3.png" if "image_3.png" else "https://images.unsplash.com/photo-1544005313-94ddf0286df2", caption="إلى أطهر وأغلى الناس.. عزة 🤍", use_container_width=True)
+        st.image("azza.png", caption="إلى أطهر وأغلى الناس.. عزة 🤍", use_container_width=True)
     
     st.markdown("<br>", unsafe_allow_html=True)
     
