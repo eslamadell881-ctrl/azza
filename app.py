@@ -4,7 +4,7 @@ import time
 # إعدادات الصفحة
 st.set_page_config(page_title="إلى عزة... رسالة من القلب", page_icon="💌", layout="centered")
 
-# تصميم الأنيماشن الخرافي للقلوب والفراشات والجواب
+# تصميم الأنيماشن والخطوط
 st.markdown("""
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Cairo:wght@400;600;700&display=swap');
@@ -35,10 +35,9 @@ st.markdown("""
         to { opacity: 1; transform: translateY(0); }
     }
 
-    /* أنيماشن تطاير القلوب والفراشات */
     .animation-container {
         position: relative;
-        height: 350px;
+        height: 300px;
         display: flex;
         justify-content: center;
         align-items: center;
@@ -47,27 +46,27 @@ st.markdown("""
 
     .floating-heart {
         position: absolute;
-        font-size: 30px;
+        font-size: 35px;
         animation: floatUpHearts 2.5s ease-in-out infinite;
     }
 
     @keyframes floatUpHearts {
         0% { transform: translateY(0px) scale(0.8); opacity: 1; }
-        50% { transform: translateY(-120px) scale(1.3) rotate(15deg); opacity: 0.8; }
-        100% { transform: translateY(-250px) scale(0.5); opacity: 0; }
+        50% { transform: translateY(-100px) scale(1.3) rotate(15deg); opacity: 0.8; }
+        100% { transform: translateY(-220px) scale(0.5); opacity: 0; }
     }
 
     .floating-butterfly {
         position: absolute;
-        font-size: 35px;
+        font-size: 40px;
         animation: floatButterflies 3s ease-in-out infinite;
         opacity: 0;
     }
 
     @keyframes floatButterflies {
-        0% { transform: translateY(-50px) translateX(0px) scale(0.5); opacity: 0; }
+        0% { transform: translateY(-30px) translateX(0px) scale(0.5); opacity: 0; }
         30% { opacity: 1; }
-        100% { transform: translateY(-280px) translateX(80px) scale(1.2) rotate(-20deg); opacity: 0; }
+        100% { transform: translateY(-250px) translateX(70px) scale(1.2) rotate(-20deg); opacity: 0; }
     }
 </style>
 """, unsafe_allow_html=True)
@@ -90,7 +89,7 @@ if st.session_state.state == "closed":
                 <span style="font-size: 75px;">💌</span>
                 <h2 style="color: #831843 !important; margin-top: 10px; font-family: 'Amiri', serif;">رسالة خاصة جداً</h2>
                 <p style="color: #831843; font-size: 16px; font-weight: bold;">إلى حبيبتي عزة 🤍</p>
-                <p style="color: #9d174d; font-size: 13px; margin-top: 10px;">(اضغط الزر أدناه لبدء السحر الأنيماشن)</p>
+                <p style="color: #9d174d; font-size: 13px; margin-top: 10px;">(اضغط الزر أدناه لفتح الجواب وسماع اللحن)</p>
             </div>
             """, unsafe_allow_html=True)
             
@@ -98,8 +97,14 @@ if st.session_state.state == "closed":
                 st.session_state.state = "animating"
                 st.rerun()
 
-# المرحلة الثانية: أنيماشن تفاعل القلوب والفراشات الحية (لمدة 5 ثوانٍ تلقائياً)
+# المرحلة الثانية: الأنيماشن وتشغيل الصوت تلقائياً
 elif st.session_state.state == "animating":
+    # تشغيل ملف اللحن اللي رفعته (تأكد أن اسمه music.mp3 مرفوع في المستودع)
+    try:
+        st.audio("music.mp3", format="audio/mp3", autoplay=True)
+    except:
+        pass # لو الملف مش موجود يتخطاه بدون أخطاء
+
     col_a1, col_a2, col_a3 = st.columns([1, 2, 1])
     with col_a2:
         st.markdown("""
@@ -115,19 +120,24 @@ elif st.session_state.state == "animating":
         </div>
         """, unsafe_allow_html=True)
     
-    # الانتظار لمدة 5 ثوانٍ بالضبط ليعرض الأنيماشن البصري ثم يفتح المحتوى النهائي
+    # الانتظار لمدة 5 ثوانٍ لعرض الأنيماشن واللحن
     time.sleep(5.0)
     st.session_state.state = "opened"
     st.rerun()
 
-# المرحلة الثالثة: عرض الصورة والقصيدة الفخمة
+# المرحلة الثالثة: عرض الصورة والقصيدة مع استمرار اللحن
 elif st.session_state.state == "opened":
-    st.markdown("<br>", unsafe_allow_html=True)
+    # تشغيل الصوت مرة أخرى في الصفحة النهائية ليستمر اللحن الهادئ
+    try:
+        st.audio("music.mp3", format="audio/mp3", autoplay=True)
+    except:
+        pass
+
+    st.markdown("<br>", unsafe_allow_html=Type if 'Type' in globals() else "")
     
     col_img1, col_img2, col_img3 = st.columns([1, 1.5, 1])
     with col_img2:
-        # تأكد أن اسم صورة رسمة عزة مرفوع في المستودع بهذا الاسم (أو عدله للاسم اللي رفعته)
-        st.image("azza.png" if "azza.png" else "image_3.png", caption="إلى أطهر وأغلى الناس.. عزة 🤍", use_container_width=True)
+        st.image("azza.png", caption="إلى أطهر وأغلى الناس.. عزة 🤍", use_container_width=True)
     
     st.markdown("<br>", unsafe_allow_html=True)
     
