@@ -2,103 +2,120 @@ import streamlit as st
 import time
 
 # إعدادات الصفحة
-st.set_page_config(page_title="رسالة اعتذار لقلبك", page_icon="💌", layout="centered")
+st.set_page_config(page_title="إلى عزة... رسالة اعتذار من القلب", page_icon="💌", layout="centered")
 
-# تصميم الواجهة والتأثيرات البصرية والخط العربي
+# تصميم الواجهة والتأثيرات الخرافية والخط العربي
 st.markdown("""
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Cairo:wght@400;600;700&display=swap');
 
     .stApp {
-        background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
+        background: linear-gradient(135deg, #0b0f19 1e1b4b 100%, #1e1b4b 100%);
         color: #f3f4f6;
         font-family: 'Cairo', sans-serif;
     }
     
     .poem-text {
         font-family: 'Amiri', serif;
-        font-size: 24px;
-        line-height: 2.2;
+        font-size: 23px;
+        line-height: 2.3;
         color: #f8fafc;
         text-align: center;
         direction: rtl;
-        background: rgba(30, 41, 59, 0.7);
-        padding: 35px;
+        background: rgba(30, 41, 59, 0.85);
+        padding: 40px;
         border-radius: 20px;
-        border: 1px solid rgba(244, 114, 182, 0.3);
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        border: 1px solid rgba(244, 114, 182, 0.4);
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6);
     }
     
-    .envelope-box {
-        background: #fbcfe8;
-        padding: 50px;
-        border-radius: 25px;
+    .real-envelope {
+        background: linear-gradient(135deg, #fbcfe8 0%, #f472b6 100%);
+        padding: 50px 30px;
+        border-radius: 20px;
         text-align: center;
-        box-shadow: 0 15px 35px rgba(244, 114, 182, 0.3);
-        max-width: 500px;
-        margin: 50px auto;
-        border: 3px dashed #db2777;
+        box-shadow: 0 20px 40px rgba(244, 114, 182, 0.4);
+        max-width: 480px;
+        margin: 60px auto;
+        border: 2px solid #db2777;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+    
+    .real-envelope:hover {
+        transform: scale(1.03);
+        box-shadow: 0 25px 50px rgba(244, 114, 182, 0.6);
     }
     
     h2 {
-        color: #f472b6 !important;
+        color: #831843 !important;
         font-family: 'Amiri', serif;
     }
 </style>
 """, unsafe_allow_html=True)
 
-# إدارة حالات التفاعل (Session State)
-if "opened" not in st.session_state:
-    st.session_state.opened = False
+# إدارة حالات التفاعل
+if "state" not in st.session_state:
+    st.session_state.state = "closed" # closed, loading, opened
 
 # العنوان الرئيسي
-st.markdown("<h1 style='text-align: center; font-family: 'Amiri', serif; margin-top: 20px;'>إلى من يمتلكه القلب... 🤍</h1>", unsafe_allow_html=True)
+st.markdown("<h1 style='text-align: center; font-family: 'Amiri', serif; margin-top: 20px; color: #f472b6;'>إلى من يمتلكه القلب... عزة 🤍</h1>", unsafe_allow_html=True)
 
-# الخطوة الأولى: Envelope (الجواب البينك والختم)
-if not st.session_state.opened:
+# المرحلة الأولى: الجواب المغلق الواقعي
+if st.session_state.state == "closed":
     st.markdown("<br>", unsafe_allow_html=True)
-    col1, col2, col3 = st.columns([1, 2, 1])
+    col1, col2, col3 = st.columns([1, 1.6, 1])
     with col2:
-        st.markdown("""
-        <div class="envelope-box">
-            <span style="font-size: 70px;">💌</span>
-            <h2 style="color: #831843 !important; margin-top: 10px;">رسالة خاصة جداً</h2>
-            <p style="color: #9d174d; font-size: 14px;">اضغط على الختم لفتح الجواب وتكسير الحواجز...</p>
-        </div>
-        """, unsafe_allow_html=True)
-        
-        if st.button("🔴 اضغط هنا لكسر الختم وفتح الجواب", use_container_width=True):
-            st.session_state.opened = True
-            st.rerun()
+        # استخدام زر شفاف يغطي شكل الجواب لتنفيذ اللمس
+        with st.form("envelope_form"):
+            st.markdown("""
+            <div style="text-align: center;">
+                <span style="font-size: 75px;">💌</span>
+                <h2 style="color: #831843 !important; margin-top: 10px;">رسالة خاصة جداً</h2>
+                <p style="color: #831843; font-size: 15px; font-weight: bold;">إلى حبيبتي عزة 🤍</p>
+                <p style="color: #9d174d; font-size: 13px; margin-top: 10px;">(اضغط في أي مكان على الجواب لفتحه وتكسير الختم)</p>
+            </div>
+            """, unsafe_allow_html=True)
+            
+            clicked = st.form_submit_button("✨ افتح الجواب الآن ✨", use_container_width=True)
+            if clicked:
+                st.session_state.state = "loading"
+                st.rerun()
 
-# الخطوة الثانية: بعد فتح الجواب (الصورة ثم الشعر والموسيقى)
-else:
-    # تأثير تكسير الختم وقلوب متطايرة وهمية
-    st.markdown("<p style='text-align: center; color: #f472b6; font-size: 18px;'>✨ تم تكسير الختم وتطايرت القلوب لعينيك... ✨</p>", unsafe_allow_html=True)
+# المرحلة الثانية: تأثير التحميل لمدة 5 ثوانٍ (قلوب تتحول لفراشات)
+elif st.session_state.state == "loading":
+    col_l1, col_l2, col_l3 = st.columns([1, 2, 1])
+    with col_l2:
+        st.markdown("<br><br>", unsafe_allow_html=True)
+        load_text = st.empty()
+        load_text.markdown("<h3 style='text-align: center; color: #f472b6;'>💖 جارِ كسر الختم وتطير القلوب لعيون عزة...</h3>", unsafe_allow_html=True)
+        
+        # محاكاة التايمر لمدة 5 ثوانٍ مع رسوم تعبيرية متحركة للقلوب والفراشات
+        time.sleep(1.5)
+        load_text.markdown("<h3 style='text-align: center; color: #f472b6;'>🦋 القلوب تتحول إلى فراشات تملأ الكون شوقاً...</h3>", unsafe_allow_html=True)
+        time.sleep(2.0)
+        load_text.markdown("<h3 style='text-align: center; color: #f472b6;'>✨ افتح قلبك الآن... الرسالة تنتظرك ✨</h3>", unsafe_allow_html=True)
+        time.sleep(1.5)
+        
+        st.session_state.state = "opened"
+        st.rerun()
+
+# المرحلة الثالثة: عرض صورة البنت والقصيدة بعد الفتح
+elif st.session_state.state == "opened":
+    st.markdown("<br>", unsafe_allow_html=True)
     
-    # مكان عرض صورة الأسد الـ AI بالبوكيه ورد لمدة مؤقتة
-    image_placeholder = st.empty()
+    # عرض صورة البنت (يمكنك رفع صورتك المرفوعة على GitHub أو استخدام رابطها المباشر)
+    # ملاحظة: استبدل الرابط أدناه برابط صورتك الحقيقية لو رفعتها على المستودع
+    girl_image_url = "https://raw.githubusercontent.com/username/repository/main/your_image_filename.jpg" # أو رابط مباشر
     
-    # رابط صورة أسد لطيف وماسك بوكيه ورد (يمكنك استبدالها برابط صورتك المفضلة المرفوعة على جيثب أو سوبابيس)
-    ai_lion_image_url = "https://images.unsplash.com/photo-1534188753412-3e26d0d618d6?q=80&w=1000&auto=format&fit=crop" # مثال مؤقت لصورة فخمة، أو صورة أسد كرتوني/واقعي بالورد
-    
-    # عرض الصورة أولاً لمدة 5 ثوانٍ
-    with image_placeholder.container():
-        col_img1, col_img2, col_img3 = st.columns([1, 2, 1])
-        with col_img2:
-            st.image("https://images.unsplash.com/photo-1614027164847-1b28cfe1df60?q=80&w=800&auto=format&fit=crop", caption="هدية خاصة لعيونك 🦁🌹", use_container_width=True)
-    
-    # الانتظار لمدة 5 ثوانٍ
-    time.sleep(5)
-    image_placeholder.empty() # مسح الصورة بعد 5 ثوانٍ
-    
-    # تشغيل الموسيقى الهادئة للحب (رابط صوتي هادئ ورومانسي)
-    music_url = "https://www.bensound.com/bensound-music/bensound-tenderness.mp3"
-    st.audio(music_url, format='audio/mp3', autoplay=True)
+    col_img1, col_img2, col_img3 = st.columns([1, 1.5, 1])
+    with col_img2:
+        # عرض صورة البنت بجودة عالية
+        st.image("image_3.png" if "image_3.png" else "https://images.unsplash.com/photo-1544005313-94ddf0286df2", caption="إلى أطهر وأغلى الناس.. عزة 🤍", use_container_width=True)
     
     st.markdown("<br>", unsafe_allow_html=True)
     
-    # عرض الشعر بخط عربي فخم (Amiri)
+    # القصيدة بخط عربي فخم (Amiri)
     poem_content = """
     وَفِي فَمِي مِنْ عَظِيمِ النَّدَمِ الْكَلَامُ<br>
     مَا كُنْتُ أَقْصِدُ أَنْ أُبْقِيَكَ فِي حَزَنٍ وَلَا أَرَدْتُ لِقَلْبِكَ لَحْظَةَ الْأَلَامِ<br><br>
@@ -113,6 +130,8 @@ else:
     st.markdown(f'<div class="poem-text">{poem_content}</div>', unsafe_allow_html=True)
     
     st.markdown("<br>", unsafe_allow_html=True)
-    if st.button("🔄 إعادة التجربة من جديد", use_container_width=True):
-        st.session_state.opened = False
-        st.rerun()
+    col_b1, col_b2, col_b3 = st.columns([1, 1, 1])
+    with col_b2:
+        if st.button("💌 إغلاق الرسالة وإعادة التجربة", use_container_width=True):
+            st.session_state.state = "closed"
+            st.rerun()
