@@ -4,13 +4,21 @@ import base64
 import os
 
 # ==========================================
-# 1. إعدادات الصفحة والتصميم
+# 1. إعدادات الصفحة والتصميم مع إخفاء شريط GitHub
 # ==========================================
 st.set_page_config(page_title="إلى عزة... رسالة من القلب", page_icon="💌", layout="centered")
 
 st.markdown("""
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Cairo:wght@400;600;700&display=swap');
+
+    /* إخفاء القائمة العلوية وشعار GitHub بالكامل */
+    #MainMenu {visibility: hidden;}
+    header {visibility: hidden;}
+    footer {visibility: hidden;}
+    div[data-testid="stToolbar"] {visibility: hidden !important;}
+    button[title="View source"] {display: none !important;}
+    .stAppHeader {display: none !important;}
 
     .stApp {
         background: linear-gradient(135deg, #0b0f19 0%, #1e1b4b 100%);
